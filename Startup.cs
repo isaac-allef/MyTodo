@@ -17,6 +17,20 @@ namespace MyTodo
         {
             services.AddControllers();
             services.AddDbContext<AppDbContext>();
+            services.AddScoped<AppDbContext, AppDbContext>();
+
+            // v2
+            services.AddScoped<GetAllTodosService, GetAllTodosService>();
+            services.AddScoped<GetTodoByIdService, GetTodoByIdService>();
+            services.AddScoped<CreateTodoService, CreateTodoService>();
+            services.AddScoped<UpdateTodoService, UpdateTodoService>();
+            services.AddScoped<DeleteTodoService, DeleteTodoService>();
+            
+            services.AddScoped<IGetAllTodosRepository, TodoRepository>();
+            services.AddScoped<IGetTodoRepository, TodoRepository>();
+            services.AddScoped<ICreateTodoRepository, TodoRepository>();
+            services.AddScoped<IUpdateTodoRepository, TodoRepository>();
+            services.AddScoped<IDeleteTodoRepository, TodoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
