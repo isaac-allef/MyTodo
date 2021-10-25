@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyTodo.Data;
+using MyTodo.Exceptions;
 using MyTodo.Models;
 using MyTodo.Protocols.Db.Repositories;
 
@@ -75,6 +76,11 @@ namespace MyTodo.Repositories
                 .Todos
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);
+
+                if (todo == null)
+                {
+                    throw new EntityNotFoundException(id);
+                }
 
                 return todo;
             }

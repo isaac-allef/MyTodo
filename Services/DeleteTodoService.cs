@@ -19,11 +19,6 @@ namespace MyTodo.Services
         public async Task<Todo> Execute(int id)
         {
             var todo = await _GetTodoRepository.GetById(id);
-            
-            if (todo == null)
-            {
-                return null;
-            }
 
             await _DeleteTodoRepository.Delete(todo);
 

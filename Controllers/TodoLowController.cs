@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyTodo.Exceptions;
 using MyTodo.InputModels;
 using MyTodo.Protocols.Services;
 
@@ -40,8 +41,11 @@ namespace MyTodo.Controllers
             {
                 var todo = await GetTodoByIdService.Execute(id);
 
-                return todo == null 
-                    ? NotFound() : Ok(todo);
+                return Ok(todo);
+            }
+            catch (EntityNotFoundException err)
+            {
+                return NotFound(err.Message);
             }
             catch (Exception err)
             {
@@ -88,13 +92,12 @@ namespace MyTodo.Controllers
                 }
 
                 var todoUpdated = await UpdateTodoService.Execute(model, id);
-                
-                if (todoUpdated == null)
-                {
-                    return NotFound();
-                }
 
                 return Ok(todoUpdated);
+            }
+            catch (EntityNotFoundException err)
+            {
+                return NotFound(err.Message);
             }
             catch (Exception err)
             {
@@ -111,13 +114,12 @@ namespace MyTodo.Controllers
             try
             {
                 var todoDeleted = await DeleteTodoService.Execute(id);
-                
-                if (todoDeleted == null)
-                {
-                    return NotFound();
-                }
 
-                return Ok();
+                return Ok(todoDeleted);
+            }
+            catch (EntityNotFoundException err)
+            {
+                return NotFound(err.Message);
             }
             catch (Exception err)
             {

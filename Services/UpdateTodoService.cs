@@ -20,11 +20,6 @@ namespace MyTodo.Services
         public async Task<Todo> Execute(UpdateTodoInputModel model, int id)
         {
             var todo = await _GetTodoRepository.GetById(id);
-            
-            if (todo == null)
-            {
-                return null;
-            }
 
             todo.Title = model.Title ?? todo.Title;
             todo.Done = model.Done ?? todo.Done;
