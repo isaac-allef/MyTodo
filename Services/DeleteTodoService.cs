@@ -1,13 +1,11 @@
-using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using MyTodo.Data;
 using MyTodo.Models;
 using MyTodo.Protocols.Db.Repositories;
+using MyTodo.Protocols.Services;
 
 namespace MyTodo.Services
 {
-    public class DeleteTodoService
+    public class DeleteTodoService : IDeleteTodoService
     {
         private IGetTodoRepository _GetTodoRepository;
         private IDeleteTodoRepository _DeleteTodoRepository;

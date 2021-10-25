@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyTodo.InputModels;
-using MyTodo.Services;
+using MyTodo.Protocols.Services;
 
 namespace MyTodo.Controllers
 {
@@ -14,7 +14,7 @@ namespace MyTodo.Controllers
         [HttpGet]
         [Route(template: "todos")]
         public async Task<IActionResult> GetAllAsync(
-            [FromServices] GetAllTodosService GetAllTodosService
+            [FromServices] IGetAllTodosService GetAllTodosService
         )
         {
             try
@@ -32,7 +32,7 @@ namespace MyTodo.Controllers
         [HttpGet]
         [Route(template: "todos/{id}")]
         public async Task<IActionResult> GetByIdAsync(
-            [FromServices] GetTodoByIdService GetTodoByIdService,
+            [FromServices] IGetTodoByIdService GetTodoByIdService,
             [FromRoute] int id
         )
         {
@@ -52,7 +52,7 @@ namespace MyTodo.Controllers
 
         [HttpPost(template: "todos")]
         public async Task<IActionResult> PostAsync(
-            [FromServices] CreateTodoService CreateTodoService,
+            [FromServices] ICreateTodoService CreateTodoService,
             [FromBody] CreateTodoInputModel model
         )
         {
@@ -75,7 +75,7 @@ namespace MyTodo.Controllers
 
         [HttpPut(template: "todos/{id}")]
         public async Task<IActionResult> PutAsync(
-            [FromServices] UpdateTodoService UpdateTodoService,
+            [FromServices] IUpdateTodoService UpdateTodoService,
             [FromBody] UpdateTodoInputModel model,
             [FromRoute] int id
         )
@@ -104,7 +104,7 @@ namespace MyTodo.Controllers
 
         [HttpDelete(template: "todos/{id}")]
         public async Task<IActionResult> DeleteAsync(
-            [FromServices] DeleteTodoService DeleteTodoService,
+            [FromServices] IDeleteTodoService DeleteTodoService,
             [FromRoute] int id
         )
         {

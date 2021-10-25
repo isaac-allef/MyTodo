@@ -2,10 +2,11 @@ using System.Threading.Tasks;
 using MyTodo.InputModels;
 using MyTodo.Models;
 using MyTodo.Protocols.Db.Repositories;
+using MyTodo.Protocols.Services;
 
 namespace MyTodo.Services
 {
-    public class UpdateTodoService
+    public class UpdateTodoService : IUpdateTodoService
     {
         private IGetTodoRepository _GetTodoRepository;
         private IUpdateTodoRepository _UpdateTodoRepository;

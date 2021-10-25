@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using MyTodo.InputModels;
 using MyTodo.Models;
 using MyTodo.Protocols.Db.Repositories;
+using MyTodo.Protocols.Services;
 
 namespace MyTodo.Services
 {
-    public class CreateTodoService
+    public class CreateTodoService : ICreateTodoService
     {
         private ICreateTodoRepository _CreateTodoRepository;
         public CreateTodoService(ICreateTodoRepository CreateTodoRepository)

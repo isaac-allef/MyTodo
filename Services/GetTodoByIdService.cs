@@ -1,12 +1,11 @@
-using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using MyTodo.Models;
 using MyTodo.Protocols.Db.Repositories;
+using MyTodo.Protocols.Services;
 
 namespace MyTodo.Services
 {
-    public class GetTodoByIdService
+    public class GetTodoByIdService : IGetTodoByIdService
     {
         private IGetTodoRepository _GetTodoRepository;
         public GetTodoByIdService(IGetTodoRepository GetTodoRepository)

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyTodo.Data;
 using MyTodo.Protocols.Db.Repositories;
+using MyTodo.Protocols.Services;
 using MyTodo.Repositories;
 using MyTodo.Services;
 
@@ -20,11 +21,11 @@ namespace MyTodo
             services.AddScoped<AppDbContext, AppDbContext>();
 
             // v2
-            services.AddScoped<GetAllTodosService, GetAllTodosService>();
-            services.AddScoped<GetTodoByIdService, GetTodoByIdService>();
-            services.AddScoped<CreateTodoService, CreateTodoService>();
-            services.AddScoped<UpdateTodoService, UpdateTodoService>();
-            services.AddScoped<DeleteTodoService, DeleteTodoService>();
+            services.AddScoped<IGetAllTodosService, GetAllTodosService>();
+            services.AddScoped<IGetTodoByIdService, GetTodoByIdService>();
+            services.AddScoped<ICreateTodoService, CreateTodoService>();
+            services.AddScoped<IUpdateTodoService, UpdateTodoService>();
+            services.AddScoped<IDeleteTodoService, DeleteTodoService>();
             
             services.AddScoped<IGetAllTodosRepository, TodoRepository>();
             services.AddScoped<IGetTodoRepository, TodoRepository>();
