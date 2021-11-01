@@ -15,12 +15,18 @@ namespace MyTodo.Controllers
         [HttpGet]
         [Route(template: "todos")]
         public async Task<IActionResult> GetAllAsync(
-            [FromServices] IGetAllTodosService GetAllTodosService
+            [FromServices] IGetAllTodosService GetAllTodosService,
+            [FromQuery] GetAllTodosInputModel model
         )
         {
             try
             {
-                var todos = await GetAllTodosService.Execute();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                var todos = await GetAllTodosService.Execute(model);
 
                 return Ok(todos);
             }
