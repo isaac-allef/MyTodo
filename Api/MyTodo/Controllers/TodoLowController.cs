@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyTodo.Models;
 using MyTodo.Models.InputModels;
 using MyTodo.Repositories.Exceptions;
 using MyTodo.Services.Interfaces;
@@ -27,6 +28,8 @@ namespace MyTodo.Controllers
                 }
 
                 var todos = await GetAllTodosService.Execute(model);
+
+                Response.Headers.Add(Constants.TOTAL_ITEMS_COUNT_HEADER, todos.Count.ToString());
 
                 return Ok(todos);
             }

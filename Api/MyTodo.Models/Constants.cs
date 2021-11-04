@@ -7,5 +7,7 @@ namespace MyTodo.Models
         public const string DIRECTION_DEFAULT_PARAM = "";
         public const int PER_PAGE_DEFAULT_PARAM = 5;
         public const int PAGE_DEFAULT_PARAM = 1;
+
+        public const string TOTAL_ITEMS_COUNT_HEADER = "X-Total-Count";
     }
 }
