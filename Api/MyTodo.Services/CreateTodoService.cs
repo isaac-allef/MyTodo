@@ -17,12 +17,9 @@ namespace MyTodo.Services
 
         public async Task<Todo> Execute(CreateTodoInputModel model)
         {
-            var todo = new Todo
-            {
-                Date = DateTime.Now,
-                Done = false,
-                Title = model.Title
-            };
+            var todo = new Todo(title: model.Title,
+                                done: false,
+                                expire: model.Expire);
 
             await _CreateTodoRepository.Create(todo);
 

@@ -54,12 +54,9 @@ namespace MyTodo.Controllers
                 return BadRequest();
             }
 
-            var todo = new Todo
-            {
-                Date = DateTime.Now,
-                Done = false,
-                Title = model.Title
-            };
+            var todo = new Todo(title: model.Title,
+                                done: false,
+                                expire: model.Expire);
 
             try
             {
@@ -97,8 +94,8 @@ namespace MyTodo.Controllers
 
             try
             {
-                todo.Title = model.Title ?? todo.Title;
-                todo.Done = model.Done ?? todo.Done;
+                todo.setTitle(model.Title ?? todo.Title);
+                todo.setDone(model.Done ?? todo.Done);
 
                 context.Todos.Update(todo);
                 await context.SaveChangesAsync();

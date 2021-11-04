@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyTodo.Models.InputModels
@@ -6,5 +7,6 @@ namespace MyTodo.Models.InputModels
     {
         [Required]
         public string Title { get; set; }
+        public DateTime? Expire { get; set; }
     }
 }

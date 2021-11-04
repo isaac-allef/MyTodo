@@ -85,15 +85,15 @@ namespace MyTodo.Repositories.Db
                         query = query.OrderByDescending(t => t.Title);
                     }
                 }
-                else if (orderBy?.ToLower() == "date")
+                else if (orderBy?.ToLower() == "expire")
                 {
                     if (direction == "asc")
                     {
-                        query = query.OrderBy(t => t.Date);
+                        query = query.OrderBy(t => t.Expire);
                     }
                     else if (direction == "desc")
                     {
-                        query = query.OrderByDescending(t => t.Date);
+                        query = query.OrderByDescending(t => t.Expire);
                     }
                 }
                 

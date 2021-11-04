@@ -21,8 +21,9 @@ namespace MyTodo.Services
         {
             var todo = await _GetTodoRepository.GetById(id);
 
-            todo.Title = model.Title ?? todo.Title;
-            todo.Done = model.Done ?? todo.Done;
+            todo.setTitle(model.Title ?? todo.Title);
+            todo.setDone(model.Done ?? todo.Done);
+            todo.setExpire(model.Expire ?? todo.Expire);
 
             await _UpdateTodoRepository.Update(todo);
 
