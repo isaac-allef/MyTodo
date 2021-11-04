@@ -41,7 +41,8 @@ namespace MyTodo.Repositories.Db
         {
             try
             {
-                _context.Todos.Remove(todo);
+                todo.deleteMe();
+                _context.Todos.Update(todo);
                 await _context.SaveChangesAsync();
 
                 return todo;
