@@ -4,6 +4,7 @@ using MyTodo.Models.InputModels;
 using MyTodo.Models.EntityModels;
 using MyTodo.Repositories.Interfaes.Db;
 using MyTodo.Services.Interfaces;
+using MyTodo.Models;
 
 namespace MyTodo.Services
 {
@@ -17,14 +18,11 @@ namespace MyTodo.Services
 
         public async Task<List<Todo>> Execute(GetAllTodosInputModel model)
         {
-            const int PER_PAGE = 5;
-            const int PAGE = 1;
-
-            string search = model.search ?? "";
-            string orderBy = model.orderBy ?? "";
-            string direction = model.direction ?? "";
-            int per_page = model.per_page ?? PER_PAGE;
-            int page = model.page ?? PAGE;
+            string search = model.search ?? Constants.SEARCH_DEFAULT_PARAM;
+            string orderBy = model.orderBy ?? Constants.ORDER_BY_DEFAULT_PARAM;
+            string direction = model.direction ?? Constants.DIRECTION_DEFAULT_PARAM;
+            int per_page = model.per_page ?? Constants.PER_PAGE_DEFAULT_PARAM;
+            int page = model.page ?? Constants.PAGE_DEFAULT_PARAM;
 
             var todos = await _GetAllTodosRepository.GetAll(search,
                                                             orderBy,
