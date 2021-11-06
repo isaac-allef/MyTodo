@@ -10,4 +10,8 @@
 		<ProjectReference Include="..\MyTodo.Services\MyTodo.Services.csproj" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
 </Project>

@@ -19,6 +19,7 @@ namespace MyTodo
             services.AddControllers();
             services.AddDbContext<AppDbContext>();
             services.AddScoped<AppDbContext, AppDbContext>();
+            services.AddSwaggerGen();
 
             // v2
             services.AddScoped<IGetAllTodosService, GetAllTodosService>();
@@ -41,6 +42,13 @@ namespace MyTodo
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Todo");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 
