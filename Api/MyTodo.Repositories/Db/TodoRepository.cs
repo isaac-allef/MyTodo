@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using MyTodo.Models.EntityModels;
 using MyTodo.Repositories.Db.Data;
 using MyTodo.Repositories.Exceptions;
@@ -17,9 +18,12 @@ namespace MyTodo.Repositories.Db
                                     IDeleteTodoRepository
     {
         private AppDbContext _context;
-        public TodoRepository(AppDbContext context)
+        private readonly IMemoryCache _memoryCache;
+
+        public TodoRepository(AppDbContext context, IMemoryCache memoryCache)
         {
             this._context = context;
+            this._memoryCache = memoryCache;
         }
 
         public async Task<Todo> Create(Todo todo)
@@ -61,6 +65,13 @@ namespace MyTodo.Repositories.Db
         {
             try
             {
+                string parametersConcatenation = $"{search}-{orderBy}-{direction}-{per_page}-{page}";
+                
+                if (_memoryCache.TryGetValue(parametersConcatenation, out List<Todo> todos))
+                {
+                    return todos;
+                }
+
                 var query = _context.Todos.AsNoTracking();
 
                 if (!String.IsNullOrEmpty(search))
@@ -98,7 +109,14 @@ namespace MyTodo.Repositories.Db
                     }
                 }
                 
-                var todos = await query.ToListAsync();
+                todos = await query.ToListAsync();
+
+                _memoryCache.Set(parametersConcatenation, todos, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5),
+                        SlidingExpiration = TimeSpan.FromSeconds(2)
+                    }
+                );
 
                 return todos;
             }
@@ -112,15 +130,27 @@ namespace MyTodo.Repositories.Db
         {
             try
             {
-                var todo = await _context
-                .Todos
-                .AsNoTracking()
-                .FirstOrDefaultAsync(t => t.Id == id);
+                if (_memoryCache.TryGetValue(id.ToString(), out Todo todo))
+                {
+                    return todo;
+                }
+
+                todo = await _context
+                    .Todos
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(t => t.Id == id);
 
                 if (todo == null)
                 {
                     throw new EntityNotFoundException(id);
                 }
+
+                _memoryCache.Set(id.ToString(), todo, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5),
+                        SlidingExpiration = TimeSpan.FromSeconds(2)
+                    }
+                );
 
                 return todo;
             }

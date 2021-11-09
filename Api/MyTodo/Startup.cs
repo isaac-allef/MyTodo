@@ -21,6 +21,7 @@ namespace MyTodo
             services.AddDbContext<AppDbContext>();
             services.AddScoped<AppDbContext, AppDbContext>();
             services.AddSwaggerGen();
+            services.AddMemoryCache();
 
             // v2
             services.AddScoped<IGetAllTodosService, GetAllTodosService>();
