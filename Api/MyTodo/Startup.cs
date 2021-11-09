@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyTodo.Middlewares;
 using MyTodo.Repositories.Db;
 using MyTodo.Repositories.Db.Data;
 using MyTodo.Repositories.Interfaes.Db;
@@ -42,6 +43,8 @@ namespace MyTodo
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

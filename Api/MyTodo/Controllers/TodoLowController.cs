@@ -1,10 +1,8 @@
-using System;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyTodo.Models;
 using MyTodo.Models.InputModels;
-using MyTodo.Repositories.Exceptions;
 using MyTodo.Services.Interfaces;
 
 namespace MyTodo.Controllers
@@ -20,23 +18,16 @@ namespace MyTodo.Controllers
             [FromQuery] GetAllTodosInputModel model
         )
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-
-                var todos = await GetAllTodosService.Execute(model);
-
-                Response.Headers.Add(Constants.TOTAL_ITEMS_COUNT_HEADER, todos.Count.ToString());
-
-                return Ok(todos);
+                return BadRequest();
             }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, err);
-            }
+
+            var todos = await GetAllTodosService.Execute(model);
+
+            Response.Headers.Add(Constants.TOTAL_ITEMS_COUNT_HEADER, todos.Count.ToString());
+
+            return Ok(todos);
         }
 
         [HttpGet]
@@ -46,20 +37,9 @@ namespace MyTodo.Controllers
             [FromRoute] int id
         )
         {
-            try
-            {
-                var todo = await GetTodoByIdService.Execute(id);
+            var todo = await GetTodoByIdService.Execute(id);
 
-                return Ok(todo);
-            }
-            catch (EntityNotFoundException err)
-            {
-                return NotFound(err.Message);
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, err);
-            }
+            return Ok(todo);
 
         }
 
@@ -69,21 +49,14 @@ namespace MyTodo.Controllers
             [FromBody] CreateTodoInputModel model
         )
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-
-                var todoCreated = await CreateTodoService.Execute(model);
-
-                return Created(uri: $"v2/todos/{todoCreated.Id}", todoCreated);
+                return BadRequest();
             }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, err);
-            }
+
+            var todoCreated = await CreateTodoService.Execute(model);
+
+            return Created(uri: $"v2/todos/{todoCreated.Id}", todoCreated);
         }
 
         [HttpPut(template: "todos/{id}")]
@@ -93,25 +66,14 @@ namespace MyTodo.Controllers
             [FromRoute] int id
         )
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
+                return BadRequest();
+            }
 
-                var todoUpdated = await UpdateTodoService.Execute(model, id);
+            var todoUpdated = await UpdateTodoService.Execute(model, id);
 
-                return Ok(todoUpdated);
-            }
-            catch (EntityNotFoundException err)
-            {
-                return NotFound(err.Message);
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, err);
-            }
+            return Ok(todoUpdated);
         }
 
         [HttpDelete(template: "todos/{id}")]
@@ -120,20 +82,9 @@ namespace MyTodo.Controllers
             [FromRoute] int id
         )
         {
-            try
-            {
-                var todoDeleted = await DeleteTodoService.Execute(id);
+            var todoDeleted = await DeleteTodoService.Execute(id);
 
-                return Ok(todoDeleted);
-            }
-            catch (EntityNotFoundException err)
-            {
-                return NotFound(err.Message);
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, err);
-            }
+            return Ok(todoDeleted);
         }
     }
 }
