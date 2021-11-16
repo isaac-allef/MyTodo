@@ -8,6 +8,7 @@
 		<ProjectReference Include="..\MyTodo.Models\MyTodo.Models.csproj" />
 		<ProjectReference Include="..\MyTodo.Repositories\MyTodo.Repositories.csproj" />
 		<ProjectReference Include="..\MyTodo.Services\MyTodo.Services.csproj" />
+		<ProjectReference Include="..\MyTodo.Facades\MyTodo.Facades.csproj" />
 	</ItemGroup>
 
   <ItemGroup>
